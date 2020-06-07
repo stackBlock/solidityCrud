@@ -41,6 +41,10 @@ const initApp = () => {
   const $createResult = document.getElementById("create-result");
   const $read = document.getElementById("read");
   const $readResult = document.getElementById("read-result");
+  const $edit = document.getElementById("edit");
+  const $editResult = document.getElementById("edit-result");
+  const $delete = document.getElementById("delete");
+  const $deleteResult = document.getElementById("delete-result");
   let accounts = [];
 
   web3.eth.getAccounts().then((_account) => {
@@ -71,7 +75,36 @@ const initApp = () => {
         $readResult.innerHTML = `The user id ${result[0]} the user name is ${result[1]}`;
       })
       .catch(() => {
-        $createResult.innerHTML = `oops... there was an error`;
+        $readResult.innerHTML = `oops... there was an error`;
+      });
+  });
+
+  $edit.addEventListener("submit", () => {
+    e.preventDefault;
+    const id = e.target.elements[0].value;
+    const name = e.target.elements[1].value;
+    crud.methods
+      .update(id, name)
+      .send({ from: account[0] })
+      .then(() => {
+        $editResult.innerHTML = `hanged name of user ${id} to ${name}`;
+      })
+      .catch(() => {
+        $editResult.innerHTML = `oops... there was an error while trying to update user id and name`;
+      });
+  });
+
+  $delete.addEventListener("Submit", () => {
+    e.preventDefault;
+    const id = e.target.elements[0].value;
+    crud.methods
+      .destroy(id)
+      .send({ from: account[0] })
+      .then(() => {
+        $deleteResult.innerHTML = `The record with id ${id} has been deleted.`;
+      })
+      .catch(() => {
+        $deleteResult.innerHTML = `oops... there was an error, delete function did not happen.`;
       });
   });
 };
