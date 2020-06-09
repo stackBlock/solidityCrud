@@ -58,10 +58,10 @@ const initApp = () => {
     e.preventDefault();
     const name = e.target.elements[0].value;
     crud.methods.create(name).send({from: accounts[0]})
-    .then(result => {
+    .then(() => {
       $createResult.innerHTML = `New user ${name} successfully created`;
     })
-    .catch(_e => {
+    .catch(e => {
       $createResult.innerHTML = `Ooops... there was an error while trying to create a new user...`;
     });
   });
