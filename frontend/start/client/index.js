@@ -47,26 +47,26 @@ const initApp = () => {
   const $deleteResult = document.getElementById("delete-result");
   let accounts = [];
 
-  web3.eth.getAccounts().then((_account) => {
+  web3.eth.getAccounts().then((_accounts) => {
     accounts = _accounts;
   });
 
   $create.addEventListener("submit", (e) => {
-    e.preventDefault;
+    e.preventDefault();
     const name = e.target.elements[0].value;
     crud.methods
       .create(name)
-      .send({ from: account[0] })
+      .send({ from: accounts[0] })
       .then(() => {
         $createResult.innerHTML = `New user ${name} was successfully created!`;
       })
-      .catch(() => {
+      .catch(e => {
         $createResult.innerHTML = `oops... there was an error while trying to create a new user...`;
       });
   });
 
   $read.addEventListener("submit", (e) => {
-    e.preventDefault;
+    e.preventDefault();
     const id = e.target.elements[0].value;
     crud.methods
       .read(id)
@@ -79,31 +79,31 @@ const initApp = () => {
       });
   });
 
-  $edit.addEventListener("submit", () => {
-    e.preventDefault;
+  $edit.addEventListener("submit", (e) => {
+    e.preventDefault();
     const id = e.target.elements[0].value;
     const name = e.target.elements[1].value;
     crud.methods
       .update(id, name)
-      .send({ from: account[0] })
+      .send({ from: accounts[0] })
       .then(() => {
-        $editResult.innerHTML = `hanged name of user ${id} to ${name}`;
+        $editResult.innerHTML = `Changed name of user ${id} to ${name}`;
       })
       .catch(() => {
         $editResult.innerHTML = `oops... there was an error while trying to update user id and name`;
       });
   });
 
-  $delete.addEventListener("Submit", () => {
-    e.preventDefault;
+  $delete.addEventListener("submit", (e) => {
+    e.preventDefault();
     const id = e.target.elements[0].value;
     crud.methods
       .destroy(id)
-      .send({ from: account[0] })
-      .then(() => {
+      .send({ from: accounts[0] })
+      .then(result => {
         $deleteResult.innerHTML = `The record with id ${id} has been deleted.`;
       })
-      .catch(() => {
+      .catch(_e => {
         $deleteResult.innerHTML = `oops... there was an error, delete function did not happen.`;
       });
   });
